@@ -1,5 +1,6 @@
 import math
 import bigints
+import hashes
 
 type Rational* = ref object
   den, num: BigInt
@@ -80,3 +81,6 @@ func isInt*(x: Rational): bool =
 func `<`*(x, y: Rational): bool =
   ## Returns true if x < y
   (x - y).num < zero
+
+func hash*(x: Rational): Hash =
+  hash($x)
