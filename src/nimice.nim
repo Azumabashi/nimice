@@ -1,6 +1,7 @@
 import math
 import bigints
 import hashes
+import sequtils
 
 type Rational* = ref object
   den, num: BigInt
@@ -82,5 +83,18 @@ func `<`*(x, y: Rational): bool =
   ## Returns true if x < y
   (x - y).num < zero
 
+func `<=`*(x, y: Rational): bool =
+  ## Returns true if x <= y
+  x < y or x == y
+
 func hash*(x: Rational): Hash =
   hash($x)
+
+proc `+=`*(x: var Rational, y: Rational) =
+  x = x + y
+
+proc `-=`*(x: var Rational, y: Rational) =
+  x = x - y
+
+proc sum*(xs: seq[Rational]): Rational =
+  xs.foldl(a + b, toRational(zero, one))

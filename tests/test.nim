@@ -26,6 +26,10 @@ test "abs":
   check abs(toRational(num, -den)) == r
   check abs(toRational(-num, -den)) == r
 
+  var a = toRational(-2, 5)
+  a += toRational(1, 2)
+  check a == toRational(1, 10)
+
 test "regularize sign":
   let den = 2
   let num = 3
@@ -50,6 +54,10 @@ test "minus":
   check x - y == toRational(-1, 6)
   check y - x == toRational(1, 6)
 
+  var a = toRational(1, 3)
+  a -= toRational(1, 2)
+  check a == toRational(-1, 6)
+
 test "product":
   let x = toRational(2, 3)
   let y = toRational(1, 2)
@@ -71,7 +79,23 @@ test "larger than":
   check not (y < x)
   check not (x < x)
 
+test "equal to or larger than":
+  let x = toRational(1, 3)
+  let y = toRational(1, 2)
+  check x <= y
+  check not (y <= x)
+  check x <= x
+
 test "reduce":
   check toRational(1, 2).reduce == toRational(1, 2)
   check toRational(2, 4).reduce == toRational(1, 2)
   check toRational(21, -14).reduce == toRational(-3, 2)
+
+test "sum":
+  check @[
+    toRational(-1, 3), toRational(-1, 2),
+    toRational(1, 3), toRational(1, 2)
+  ].sum == toRational(0, 1)
+  check @[
+    toRational(1, 2), toRational(1, 3), toRational(1, 6)
+  ].sum == toRational(1, 1)
